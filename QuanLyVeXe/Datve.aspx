@@ -111,7 +111,7 @@
                                             <script src="js/jsclander/jquery-1.8.0.js" type="text/javascript"></script>
                                             <script src="js/jsclander/jquery-ui.js" type="text/javascript"></script>
                                             <script type="text/javascript">
-                                                $("#txtNgayThangXuatBen").datepicker();
+                                                $('#<%= txtNgayThangXuatBen.ClientID%>').datepicker();
                                             </script>
                                         </td>
                                     </tr>
