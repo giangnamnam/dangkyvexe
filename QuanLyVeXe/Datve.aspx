@@ -2,16 +2,23 @@
 
 <%@ Register Assembly="MSCaptcha" Namespace="MSCaptcha" TagPrefix="cc1" %>
 
+  
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" Runat="Server">
      <style type="text/css">
         .style1
         {
            float: right;
-           text-align: center;        
+           text-align: center;   
         }
+
     </style>
+    <link href="css/clander/jquery-ui.css" rel="stylesheet" type="text/css" />
+    
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
+
+
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server"> 
+   
      <div class="section">
                     <div class="tag-title-wrap clearfix">
                         <h4 class="tag-title">
@@ -21,6 +28,18 @@
                     <ul class="columns-2 clearfix">
                         <li class="col2">
                             <div class="testimonial-wrapper clearfix">
+                            <center>
+                                <p><asp:Label ID="lbThongBaoStatus" runat="server" Text="" Font-Bold="True" Font-Size="Large" ForeColor="#FF3300"></asp:Label></p>
+                                    <br />
+                                <p><asp:Label ID="lbThongBaoStatus1" runat="server" Text="" Font-Bold="True" Font-Size="Large" ForeColor="#FF3300"></asp:Label></p>
+                                <br />
+                                <p>
+                                    <asp:HyperLink ID="HyperLinkDangNhap" runat="server" NavigateUrl="~/Dangnhap.aspx">Đăng nhập</asp:HyperLink>
+                                    <asp:Label ID="Label10" runat="server" Text="|"></asp:Label>
+                                    <asp:HyperLink ID="HyperLinkDangKy" runat="server" NavigateUrl="~/Dangky.aspx">Đăng ký</asp:HyperLink>
+                                </p>
+                             </center>
+                           <asp:PlaceHolder runat="server" ID="pnDangKyVe" Visible="false">
                            <table border="0" width="100%">
                                     <tr>
                                             <p style="text-align:center;color: Red;font-weight:bold;"><asp:Label ID="Label4" runat="server" Text="Label">Quý khách vui lòng điền đầy đủ thông tin để đăng ký vé.</asp:Label></p>
@@ -28,7 +47,7 @@
                                     </tr>
                                     <tr>
                                         <td class="style1">  
-                                               <asp:Label ID="Label1" runat="server" Text="Họ và tên: "></asp:Label>
+                                               <asp:Label ID="Label1" runat="server">Họ và tên:</asp:Label>
                                         </td>
                                         <td>
                                             <asp:TextBox ID="txtHoVaTen" runat="server" Width="247px"></asp:TextBox>
@@ -74,10 +93,9 @@
                                             <asp:Label ID="Label6" runat="server" Text="Tuyến đi: "></asp:Label>
                                         </td>
                                         <td>
-                                            <asp:DropDownList ID="DropDownListTuyenDi" runat="server" Width="247px" 
+                                            <asp:DropDownList ID="DropDownListTuyenDiTuyenDen" runat="server" Width="247px" 
                                                 Height="22px">
-                                                <asp:ListItem Value="0">Hai Duong</asp:ListItem>
-                                                <asp:ListItem Value="1">Ha Noi</asp:ListItem>
+                                                <asp:ListItem Value="0">---Tuyến đi<=>Tuyến đến---</asp:ListItem>
                                             </asp:DropDownList>
                                         </td>
                                     </tr>
@@ -89,18 +107,13 @@
                                         </td>
                                         <td>
                                             <asp:TextBox ID="txtNgayThangXuatBen" runat="server" Width="247px"></asp:TextBox>
-                                        </td>
-                                    </tr>
 
-                                      <tr>
-                                        <td>
-                                            
+                                            <script src="js/jsclander/jquery-1.8.0.js" type="text/javascript"></script>
+                                            <script src="js/jsclander/jquery-ui.js" type="text/javascript"></script>
+                                            <script type="text/javascript">
+                                                $("#txtNgayThangXuatBen").datepicker();
+                                            </script>
                                         </td>
-                                        <td>
-                                            <asp:Label ID="lbDinhDangNgay" runat="server" Text="Định dang ngày:dd\mm\yyyy" 
-                                                Font-Size="Smaller" CssClass="label"></asp:Label>
-                                        </td>
-                                        
                                     </tr>
 
 
@@ -135,11 +148,11 @@
                                         <td></td>
                                         <td style="padding-left:50px;">
                                             <asp:Button ID="btDangKy" runat="server" Text="Đăng ký" BorderStyle="Dashed" 
-                                                Font-Bold="True" ForeColor="#000066" />
+                                                Font-Bold="True" ForeColor="#000066" onclick="btDangKy_Click" />
                                         </td>
                                     </tr>
                                 </table>
-                       
+                             </asp:PlaceHolder>
                             </div>
                         </li>
               
