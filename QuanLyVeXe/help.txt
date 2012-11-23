@@ -48,6 +48,8 @@ membership của ASP.NET
 + CSDL Role & Membership ASP.NET--> Thang nay cung cap 3 application Membership, Profile, Roles
 + Muon thay doi Password khong bat buoc pai co pass dat biet thi ta lam nhu sau
 
++ trong đó lớp Membership quản lý các tài khoản và lớp Roles quản lý quyền và phân quyền. 
++ Ở đây, việc kiểm tra tính hợp lệ của tài khoản được thực hiện bằng phương thức ValidateUser của Membership và đặt trạng thái đăng nhập bằng phương thức SetAuthCookie của FormsAuthentication
  
 Tạo tài khoản: 145
 
