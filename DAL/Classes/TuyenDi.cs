@@ -16,47 +16,44 @@ namespace DAL
             get { return _MaTuyen; }
             set { _MaTuyen = value; }
         }
-        private string _BenDi;
+        private string _BenDiBenDen;
 
-        public string BenDi
+        public string BenDiBenDen
         {
-            get { return _BenDi; }
-            set { _BenDi = value; }
+            get { return _BenDiBenDen; }
+            set { _BenDiBenDen = value; }
         }
-        private string _BenDen;
 
-        public string BenDen
+        private int _MaTG;
+
+        public int MaTG
         {
-            get { return _BenDen; }
-            set { _BenDen = value; }
+            get { return _MaTG; }
+            set { _MaTG = value; }
         }
-        private string _LoaiXe;
 
-        public string LoaiXe
+        private int _MaXe;
+
+        public int MaXe
         {
-            get { return _LoaiXe; }
-            set { _LoaiXe = value; }
+            get { return _MaXe; }
+            set { _MaXe = value; }
         }
-        private DateTime _ThoiGian;
 
-        public DateTime ThoiGian
-        {
-            get { return _ThoiGian; }
-            set { _ThoiGian = value; }
-        }
-        private decimal _GiaVe;
+  
+        private decimal? _GiaVe;
 
-        public decimal GiaVe
+        public decimal? GiaVe
         {
             get { return _GiaVe; }
             set { _GiaVe = value; }
         }
-        private int _ChoTrong;
+        private int _SoGheDat;
 
-        public int ChoTrong
+        public int SoGheDat
         {
-            get { return _ChoTrong; }
-            set { _ChoTrong = value; }
+            get { return _SoGheDat; }
+            set { _SoGheDat = value; }
         }
         private string _PhuThu;
 
@@ -65,19 +62,23 @@ namespace DAL
             get { return _PhuThu; }
             set { _PhuThu = value; }
         }
-        private string _GhiChu;
+        
+        //lay theo ten
+        private string _GioXuatBen;
 
-        public string GhiChu
+        public string GioXuatBen
         {
-            get { return _GhiChu; }
-            set { _GhiChu = value; }
+            get { return _GioXuatBen; }
+            set { _GioXuatBen = value; }
         }
-        private string _PhanBietTuyen;
 
-        public string PhanBietTuyen
+
+        private string _KieuiXe;
+
+        public string KieuiXe
         {
-            get { return _PhanBietTuyen; }
-            set { _PhanBietTuyen = value; }
+            get { return _KieuiXe; }
+            set { _KieuiXe = value; }
         }
         public TuyenDi()
         { }
@@ -125,6 +126,19 @@ namespace DAL
             catch
             {
                 return false;
+            }
+        }
+
+        //Select TuyenDiTuyenDen
+        public static List<TuyenDi> TuyenDi_Dropdownlist()
+        {
+            try
+            {
+                return CBO.FillCollection<TuyenDi>(DataProvider.Instance.ExecuteReader("TuyenDi_SelectLoadDropDowList"));
+            }
+            catch
+            {
+                return new List<TuyenDi>();
             }
         }
     }
