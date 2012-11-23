@@ -51,26 +51,12 @@ namespace DAL
             get { return _SoDT; }
             set { _SoDT = value; }
         }
-        private int _MaTuyen;
-
-        public int MaTuyen
-        {
-            get { return _MaTuyen; }
-            set { _MaTuyen = value; }
-        }
         private DateTime _NgayXuatBen;
 
         public DateTime NgayXuatBen
         {
             get { return _NgayXuatBen; }
             set { _NgayXuatBen = value; }
-        }
-        private string _LoaiXe;
-
-        public string LoaiXe
-        {
-            get { return _LoaiXe; }
-            set { _LoaiXe = value; }
         }
         private bool _TrangThaiVeXe;
 
@@ -79,12 +65,66 @@ namespace DAL
             get { return _TrangThaiVeXe; }
             set { _TrangThaiVeXe = value; }
         }
-        private int _MaTK;
+        private int _MaTG;
 
-        public int MaTK
+        public int MaTG
         {
-            get { return _MaTK; }
-            set { _MaTK = value; }
+            get { return _MaTG; }
+            set { _MaTG = value; }
+        }
+        private int _MaTuyen;
+
+        public int MaTuyen
+        {
+            get { return _MaTuyen; }
+            set { _MaTuyen = value; }
+        }
+        private int _MaXe;
+
+        public int MaXe
+        {
+            get { return _MaXe; }
+            set { _MaXe = value; }
+        }
+        private string _MaTKKH;
+
+        public string MaTKKH
+        {
+            get { return _MaTKKH; }
+            set { _MaTKKH = value; }
+        }
+
+        // Xuat name
+        private string _KieuiXe;
+
+        public string KieuiXe
+        {
+            get { return _KieuiXe; }
+            set { _KieuiXe = value; }
+        }
+
+        private string _GioXuatBen;
+
+        public string GioXuatBen
+        {
+            get { return _GioXuatBen; }
+            set { _GioXuatBen = value; }
+        }
+
+        private string _BenDiBenDen;
+
+        public string BenDiBenDen
+        {
+            get { return _BenDiBenDen; }
+            set { _BenDiBenDen = value; }
+        }
+
+        private decimal? _GiaVe;
+
+        public decimal? GiaVe
+        {
+            get { return _GiaVe; }
+            set { _GiaVe = value; }
         }
 
         public VeXe()
@@ -122,6 +162,32 @@ namespace DAL
                 return new List<VeXe>();
             }
         }
+        //Single
+        public static VeXe VeXe_Single(string id)
+        {
+            try
+            {
+                return CBO.FillObject<VeXe>(DataProvider.Instance.ExecuteReader("VeXe_Single", Convert.ToInt32(id)));
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        //Add ve xe
+        public static bool Add(VeXe vx)
+        {
+            try
+            {
+                object result = DataProvider.Instance.ExecuteNonQueryWithOutput("@MaVe", "VeXe_Add", vx.MaVe, vx.HoTen, vx.GioiTinh, vx.Tuoi, vx.DiaChi, vx.SoDT, vx.NgayXuatBen, vx.TrangThaiVeXe, vx.MaTG, vx.MaTuyen, vx.MaXe, vx.MaTKKH);
+                return Convert.ToInt32(result) > 0;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         //Delete
         public static bool Delete(string id)
         {
@@ -149,5 +215,17 @@ namespace DAL
             }
         }
 
+        //Select ve xe theo username
+        public static List<VeXe> VeXe_SlectAcountKH(string tendangnhap)
+        {
+            try
+            {
+                return CBO.FillCollection<VeXe>(DataProvider.Instance.ExecuteReader("VeXe_SelectUsernameAcount",tendangnhap));
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
 }
