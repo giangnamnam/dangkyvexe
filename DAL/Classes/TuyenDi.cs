@@ -141,5 +141,83 @@ namespace DAL
                 return new List<TuyenDi>();
             }
         }
+
+
+        //Single
+        public static TuyenDi TuyenDi_Single(string id)
+        {
+            try
+            {
+                return CBO.FillObject<TuyenDi>(DataProvider.Instance.ExecuteReader("TuyenDi_Single", Convert.ToInt32(id)));
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        //Add tuyen di
+        public static bool TuyenDi_Add(TuyenDi td)
+        {
+            try
+            {
+                object result = DataProvider.Instance.ExecuteNonQueryWithOutput("@MaTuyen", "TuyenDi_Add", td.MaTuyen, td.BenDiBenDen, td.MaTG, td.MaXe, td.GiaVe, td.SoGheDat, td.PhuThu);
+                return Convert.ToInt32(result) > 0;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        //Update
+        public static bool TuyenDi_Update(TuyenDi td)
+        {
+            try
+            {
+                int result = DataProvider.Instance.ExecuteNonQuery("TuyenDi_Update",td.MaTuyen, td.BenDiBenDen, td.MaTG, td.MaXe, td.GiaVe, td.SoGheDat, td.PhuThu);
+                return result > 0;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        //Search tuyen di
+        public static List<TuyenDi> SearchTuyenDi(string bendibenden,string thoigian,string loaixe)
+        {
+            try
+            {
+                return CBO.FillCollection<TuyenDi>(DataProvider.Instance.ExecuteReader("TuyenDi_Search", bendibenden, thoigian, loaixe));
+            }
+            catch
+            {
+                return new List<TuyenDi>();
+            }
+        }
+
+        //Search tuyen di Pages
+        public static List<TuyenDi> SearchPaging(string page, out int howManyPage, string bendibenden, string thoigian, string loaixe, decimal giave)
+        {
+            IDataReader reader = null;
+            try
+            {
+                int pageSize = GlobalConfiguration.PageSize;
+                reader = DataProvider.Instance.ExecuteReader("TuyenDi_SearchPages", page, GlobalConfiguration.PageSize,bendibenden,thoigian,loaixe,giave);
+                reader.Read();
+                howManyPage = (int)Math.Ceiling((double)reader.GetInt32(0) / (double)pageSize);
+                reader.NextResult();
+                return CBO.FillCollection<TuyenDi>(reader);
+            }
+            catch
+            {
+                if (reader != null && reader.IsClosed == false)
+                {
+                    reader.Close();
+                }
+                howManyPage = 0;
+                return new List<TuyenDi>();
+            }
+        }
     }
 }

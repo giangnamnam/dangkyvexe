@@ -22,15 +22,37 @@ namespace DAL
         
         //Phan trang tai khoan khach hang
 
+        //public static string ToTaiKhoanKH(string page)
+        //{
+        //    if (page == "1")
+        //    {
+        //        return BuildAbsolute(String.Format("Admin/Acountkhachhang.aspx"));
+        //    }
+        //    else
+        //    {
+        //        return BuildAbsolute(String.Format("Admin/Acountkhachhang.aspx?Page={0}", page));
+        //    }
+
+        //}
+        //public static string ToTaiKhoanKH()
+        //{
+        //    return ToTaiKhoanKH("1");
+        //}
+        //public static string ToTaiKhoanKhachHangID(string Id)
+        //{
+        //    return BuildAbsolute(String.Format("Admin/Acountkhachhang.aspx?Id={0}", Id));
+        //}
+
+
         public static string ToTaiKhoanKH(string page)
         {
             if (page == "1")
             {
-                return BuildAbsolute(String.Format("Admin/Acountkhachhang.aspx"));
+                return BuildAbsolute(String.Format("Admin/GerAll.aspx"));
             }
             else
             {
-                return BuildAbsolute(String.Format("Admin/Acountkhachhang.aspx?Page={0}", page));
+                return BuildAbsolute(String.Format("Admin/GerAll.aspx?Page={0}", page));
             }
 
         }
@@ -40,9 +62,8 @@ namespace DAL
         }
         public static string ToTaiKhoanKhachHangID(string Id)
         {
-            return BuildAbsolute(String.Format("Admin/Acountkhachhang.aspx?Id={0}", Id));
+            return BuildAbsolute(String.Format("Admin/GerAll.aspx?Id={0}", Id));
         }
-
         //Phan trang cua lien he
         public static string ToLienHe(string page)
         {
@@ -75,6 +96,32 @@ namespace DAL
         {
             return ToVeXe("1");
         }
+
+        //Tim kiem vexe
+        public static string SearchVeXe(string page, string diachi, DateTime ngayxuatben, string gioxuatben, string bendibenden)
+        {
+            if (page == "1")
+            {
+                return BuildAbsolute(String.Format("Admin/Tuyendi.aspx?Diachi={0}&Ngayxuatben={1}&Gioxuatben={2}&Bendibenden={3}",diachi,ngayxuatben,gioxuatben, bendibenden));
+            }
+            else
+            {
+                return BuildAbsolute(String.Format("Admin/Tuyendi.aspx?Page={0}&Diachi={1}&Ngayxuatben={2}&Gioxuatben={3}&Bendibenden={4}",page,diachi, ngayxuatben, gioxuatben, bendibenden));
+            }
+
+        }
+        public static string SearchVeXe()
+        {
+            return SearchVeXe("1","",DateTime.Parse(""),"","");
+        }
+
+
+
+
+
+
+
+
         //Phan trang cua tuyen di
         public static string ToTuyenDi(String page)
         {
@@ -90,6 +137,24 @@ namespace DAL
         public static string ToTuyenDi()
         {
             return ToTuyenDi("1");
+        }
+
+        //Tim kiem tuyen di
+        public static string SearchTuyenDi(string page,string bendibenden, string thoigian, string loaixe)
+        {
+            if (page == "1")
+            {
+                return BuildAbsolute(String.Format("Admin/Tuyendi.aspx?BendiBenden={0}&Thoigian={1}&Loaixe={2}", bendibenden, thoigian, loaixe));
+            }
+            else
+            {
+                return BuildAbsolute(String.Format("Admin/Tuyendi.aspx?Page={0}&BendiBenden={1}&Thoigian={2}&Loaixe={3}",page,bendibenden, thoigian, loaixe));
+            }
+
+        }
+        public static string SearchTuyenDi()
+        {
+            return SearchTuyenDi("1","","","");
         }
     }
 }

@@ -94,6 +94,15 @@ namespace DAL
             set { _MaTKKH = value; }
         }
 
+        private int _SoGheDat;
+
+        public int SoGheDat
+        {
+            get { return _SoGheDat; }
+            set { _SoGheDat = value; }
+        }
+
+
         // Xuat name
         private string _KieuiXe;
 
@@ -225,6 +234,45 @@ namespace DAL
             catch
             {
                 return null;
+            }
+        }
+
+        //Update ve xe
+        public static bool Update(VeXe vx)
+        {
+            try
+            {
+                int result = DataProvider.Instance.ExecuteNonQuery("VeXe_Update", vx.MaVe, vx.HoTen, vx.GioiTinh, vx.Tuoi, vx.DiaChi, vx.SoDT, vx.NgayXuatBen, vx.TrangThaiVeXe, vx.MaTG, vx.MaTuyen, vx.MaXe, vx.MaTKKH);
+                return result > 0;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        //
+        //Search tuyen di Pages
+        public static List<VeXe> SearchPaging(string page, out int howManyPage, string diachi, string gioxuatben, string bendibenden)
+        {
+            IDataReader reader = null;
+            try
+            {
+                int pageSize = GlobalConfiguration.PageSize;
+                reader = DataProvider.Instance.ExecuteReader("VeXe_SearchPaging", page, GlobalConfiguration.PageSize,diachi,gioxuatben,bendibenden);
+                reader.Read();
+                howManyPage = (int)Math.Ceiling((double)reader.GetInt32(0) / (double)pageSize);
+                reader.NextResult();
+                return CBO.FillCollection<VeXe>(reader);
+            }
+            catch
+            {
+                if (reader != null && reader.IsClosed == false)
+                {
+                    reader.Close();
+                }
+                howManyPage = 0;
+                return new List<VeXe>();
             }
         }
     }
