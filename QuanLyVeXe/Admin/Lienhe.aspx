@@ -14,20 +14,23 @@
                     Height="30px" onclick="btXoaLienHe_Click" OnClientClick="return confirm('Are you renmove it slected?');" />
                 <asp:Button ID="btThongKe" runat="server" Text="Thống kê" Width="112px" 
                     Height="30px" />
-                <asp:Button ID="btIndanhsach" runat="server" Text="In danh sách" 
-                    Height="29px" />
+               
+               <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Admin/Report/ReprotLienHe.aspx" Target="_blank">[In Danh Sách]</asp:HyperLink>
+
                <asp:Label ID="lbThongKe" runat="server" Text="9" CssClass="labelThongKe"></asp:Label>
             </asp:Panel>
+           
 
         &nbsp;</p>
 
        
 
         <p>
-            <asp:Repeater ID="RepeaterLienHe" runat="server" >
+            <asp:Repeater ID="RepeaterLienHe" runat="server" 
+                onitemcommand="RepeaterLienHe_ItemCommand" >
                 <HeaderTemplate>
                     <table class="list">
-                    <tr>
+                    <tr style="background-color: #87CEEB;">
                         
                         <th class="cid"><input type="checkbox"></th>
                         <th>Họ tên</th>
@@ -36,6 +39,7 @@
                         <th>Điện thoại</th>
                         <th>Tiêu đề</th>
                         <th>Nội dung</th>
+                        <th>Print</th>
                         <th>ID</th>
                     </tr>
                 </HeaderTemplate>
@@ -49,7 +53,10 @@
                         <td><%#Eval("Email")%></td>
                         <td><%#Eval("DienThoai")%></td>
                         <td><%#Eval("TieuDe")%></td>
-                        <td style="text-align:left"><%#Eval("NoiDung")%></td>
+                        <td style="text-align:left;"><%#Eval("NoiDung")%></td>
+                          <td>
+                             <asp:LinkButton ID="LinkButton1" runat="server" CommandName="LienHeUpdateStatus" CommandArgument='<%#Eval("MaLH")+"_"+Eval("Printt")%>'  BorderStyle="None" CssClass='<%#Eval("Printt").ToString()=="False"?"cross":"print" %>'></asp:LinkButton>
+                        </td>
                         <td><%#Eval("MaLH")%></td>
                     </tr>
                 </ItemTemplate>
