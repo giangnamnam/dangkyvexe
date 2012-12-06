@@ -94,14 +94,16 @@ namespace DAL
             set { _MaTKKH = value; }
         }
 
-        private int _SoGheDat;
 
-        public int SoGheDat
+
+
+        private bool _Printt;
+
+        public bool Printt
         {
-            get { return _SoGheDat; }
-            set { _SoGheDat = value; }
+            get { return _Printt; }
+            set { _Printt = value; }
         }
-
 
         // Xuat name
         private string _KieuiXe;
@@ -188,7 +190,9 @@ namespace DAL
         {
             try
             {
-                object result = DataProvider.Instance.ExecuteNonQueryWithOutput("@MaVe", "VeXe_Add", vx.MaVe, vx.HoTen, vx.GioiTinh, vx.Tuoi, vx.DiaChi, vx.SoDT, vx.NgayXuatBen, vx.TrangThaiVeXe, vx.MaTG, vx.MaTuyen, vx.MaXe, vx.MaTKKH);
+                //lay soghemax cua cung chuyen xe
+
+                object result = DataProvider.Instance.ExecuteNonQueryWithOutput("@MaVe", "VeXe_Add", vx.MaVe, vx.HoTen, vx.GioiTinh, vx.Tuoi, vx.DiaChi, vx.SoDT, vx.NgayXuatBen, vx.TrangThaiVeXe, vx.MaTG, vx.MaTuyen, vx.MaXe, vx.MaTKKH,vx.Printt);
                 return Convert.ToInt32(result) > 0;
             }
             catch
@@ -242,7 +246,7 @@ namespace DAL
         {
             try
             {
-                int result = DataProvider.Instance.ExecuteNonQuery("VeXe_Update", vx.MaVe, vx.HoTen, vx.GioiTinh, vx.Tuoi, vx.DiaChi, vx.SoDT, vx.NgayXuatBen, vx.TrangThaiVeXe, vx.MaTG, vx.MaTuyen, vx.MaXe, vx.MaTKKH);
+                int result = DataProvider.Instance.ExecuteNonQuery("VeXe_Update", vx.MaVe, vx.HoTen, vx.GioiTinh, vx.Tuoi, vx.DiaChi, vx.SoDT, vx.NgayXuatBen, vx.TrangThaiVeXe, vx.MaTG, vx.MaTuyen, vx.MaXe, vx.MaTKKH,vx.Printt);
                 return result > 0;
             }
             catch
@@ -252,14 +256,26 @@ namespace DAL
         }
 
         //
+        public static List<VeXe> SearchNoPaging(string diachi)
+        {
+            try
+            {
+                return CBO.FillCollection<VeXe>(DataProvider.Instance.ExecuteReader("VeXe_Search",diachi));
+            }
+            catch
+            {
+                return new List<VeXe>();
+            }
+        }
+
         //Search tuyen di Pages
-        public static List<VeXe> SearchPaging(string page, out int howManyPage, string diachi, string gioxuatben, string bendibenden)
+        public static List<VeXe> SearchPagingss(string page, out int howManyPage, string diachi, string ngayxuatben, string thoigian,string loaixe, string bendibenden)
         {
             IDataReader reader = null;
             try
             {
                 int pageSize = GlobalConfiguration.PageSize;
-                reader = DataProvider.Instance.ExecuteReader("VeXe_SearchPaging", page, GlobalConfiguration.PageSize,diachi,gioxuatben,bendibenden);
+                reader = DataProvider.Instance.ExecuteReader("VeXe_SearchPaging", page, GlobalConfiguration.PageSize, diachi,Convert.ToDateTime(ngayxuatben),thoigian,loaixe,bendibenden);
                 reader.Read();
                 howManyPage = (int)Math.Ceiling((double)reader.GetInt32(0) / (double)pageSize);
                 reader.NextResult();
@@ -274,6 +290,43 @@ namespace DAL
                 howManyPage = 0;
                 return new List<VeXe>();
             }
+        }
+
+        //Update trang thai ve
+        public static bool UpdatePrint(string id, bool status)
+        {
+            try
+            {
+                int result = DataProvider.Instance.ExecuteNonQuery("VeXe_UpdatePrint", Convert.ToInt32(id), status);
+                return result > 0;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        //Ham dem so luong ve xe co dieu kien
+
+        public static int VeXe_CountWhere(string date, string mathoigian, string matuyen, string mave)
+        {
+            object result = DataProvider.Instance.ExecuteScalar("VeXe_CountWhere", Convert.ToDateTime(date), Convert.ToInt32(mathoigian), Convert.ToInt32(matuyen), Convert.ToInt32(mave));
+            return Convert.ToInt32(result);
+        }
+
+        //Ham dem so luong Count ho ten
+
+        public static int VeXe_CountHoTen(string diachi,string ngayxuatben,string gioxuatben,string kieuxe,string bendibenden)
+        {
+            object result = DataProvider.Instance.ExecuteScalar("VeVe_CountHoTen",diachi,Convert.ToDateTime(ngayxuatben),gioxuatben,kieuxe,bendibenden);
+            return Convert.ToInt32(result);
+        }
+        
+        //Tinh doanh thu
+        public static int VeXe_SumGiaVe(string tungay, string denngay,string kieuxe, string bendibenden)
+        {
+            object result = DataProvider.Instance.ExecuteScalar("VeXe_SumGiaVe", Convert.ToDateTime(tungay), Convert.ToDateTime(denngay), kieuxe, bendibenden);
+            return Convert.ToInt32(result);
         }
     }
 }

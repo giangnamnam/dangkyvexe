@@ -10,7 +10,7 @@ namespace DAL
     public class LienHe
     {
         private int _MaLH;
-
+    
         public int MaLH
         {
             get { return _MaLH; }
@@ -58,6 +58,15 @@ namespace DAL
             get { return _NoiDung; }
             set { _NoiDung = value; }
         }
+
+        private bool _Printt;
+
+        public bool Printt
+        {
+            get { return _Printt; }
+            set { _Printt = value; }
+        }
+
         public LienHe()
         { }
         public static List<LienHe> ListLienHe()
@@ -123,12 +132,57 @@ namespace DAL
         {
             try
             {
-                object result = DataProvider.Instance.ExecuteNonQueryWithOutput("@MaLH", "LienHe_Add", lienhe.MaLH, lienhe.HoTen, lienhe.DiaChi, lienhe.Email, lienhe.DienThoai, lienhe.TieuDe, lienhe.NoiDung);
+                object result = DataProvider.Instance.ExecuteNonQueryWithOutput("@MaLH", "LienHe_Add", lienhe.MaLH, lienhe.HoTen, lienhe.DiaChi, lienhe.Email, lienhe.DienThoai, lienhe.TieuDe, lienhe.NoiDung,lienhe.Printt);
                 return Convert.ToInt32(result) > 0;
             }
             catch
             {
                 return false;
+            }
+        }
+
+        //Update trang thai ve
+        public static bool UpdatePrint(string id, bool status)
+        {
+            try
+            {
+                int result = DataProvider.Instance.ExecuteNonQuery("LienHe_UpdatePrint", Convert.ToInt32(id), status);
+                return result > 0;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        //Thong ke ve xe
+        public static int LienHe_CountHoTen(string hoten, string diachi, string email,string sodt)
+        {
+            object result = DataProvider.Instance.ExecuteScalar("LienHe_CountPages",hoten,diachi,email,sodt);
+            return Convert.ToInt32(result);
+        }
+
+        //Search
+        public static List<LienHe> LienHe_SearchPagings(string page, out int howManyPage,string hoten,string diachi,string email,string sodt)
+        {
+            IDataReader reader = null;
+            try
+            {
+                int pageSize = GlobalConfiguration.PageSize;
+                reader = DataProvider.Instance.ExecuteReader("LienHe_SearchPages", page, GlobalConfiguration.PageSize, hoten, diachi, email, sodt);
+                reader.Read();
+                howManyPage = (int)Math.Ceiling((double)reader.GetInt32(0) / (double)pageSize);
+                reader.NextResult();
+                return CBO.FillCollection<LienHe>(reader);
+            }
+            catch
+            {
+                if (reader != null && reader.IsClosed == false)
+                {
+                    reader.Close();
+                }
+                howManyPage = 0;
+                return new List<LienHe>();
             }
         }
     }

@@ -48,13 +48,7 @@ namespace DAL
             get { return _GiaVe; }
             set { _GiaVe = value; }
         }
-        private int _SoGheDat;
-
-        public int SoGheDat
-        {
-            get { return _SoGheDat; }
-            set { _SoGheDat = value; }
-        }
+ 
         private string _PhuThu;
 
         public string PhuThu
@@ -62,7 +56,16 @@ namespace DAL
             get { return _PhuThu; }
             set { _PhuThu = value; }
         }
-        
+
+
+        private bool _Printt;
+
+        public bool Printt
+        {
+            get { return _Printt; }
+            set { _Printt = value; }
+        }
+
         //lay theo ten
         private string _GioXuatBen;
 
@@ -161,7 +164,7 @@ namespace DAL
         {
             try
             {
-                object result = DataProvider.Instance.ExecuteNonQueryWithOutput("@MaTuyen", "TuyenDi_Add", td.MaTuyen, td.BenDiBenDen, td.MaTG, td.MaXe, td.GiaVe, td.SoGheDat, td.PhuThu);
+                object result = DataProvider.Instance.ExecuteNonQueryWithOutput("@MaTuyen", "TuyenDi_Add", td.MaTuyen, td.BenDiBenDen, td.MaTG, td.MaXe, td.GiaVe, td.PhuThu,td.Printt);
                 return Convert.ToInt32(result) > 0;
             }
             catch
@@ -174,7 +177,7 @@ namespace DAL
         {
             try
             {
-                int result = DataProvider.Instance.ExecuteNonQuery("TuyenDi_Update",td.MaTuyen, td.BenDiBenDen, td.MaTG, td.MaXe, td.GiaVe, td.SoGheDat, td.PhuThu);
+                int result = DataProvider.Instance.ExecuteNonQuery("TuyenDi_Update",td.MaTuyen, td.BenDiBenDen, td.MaTG, td.MaXe, td.GiaVe, td.PhuThu,td.Printt);
                 return result > 0;
             }
             catch
@@ -197,13 +200,13 @@ namespace DAL
         }
 
         //Search tuyen di Pages
-        public static List<TuyenDi> SearchPaging(string page, out int howManyPage, string bendibenden, string thoigian, string loaixe, decimal giave)
+        public static List<TuyenDi> SearchPaging(string page, out int howManyPage, string bendibenden, string thoigian, string loaixe)
         {
             IDataReader reader = null;
             try
             {
                 int pageSize = GlobalConfiguration.PageSize;
-                reader = DataProvider.Instance.ExecuteReader("TuyenDi_SearchPages", page, GlobalConfiguration.PageSize,bendibenden,thoigian,loaixe,giave);
+                reader = DataProvider.Instance.ExecuteReader("TuyenDi_SearchPages", page, GlobalConfiguration.PageSize,bendibenden,thoigian,loaixe);
                 reader.Read();
                 howManyPage = (int)Math.Ceiling((double)reader.GetInt32(0) / (double)pageSize);
                 reader.NextResult();
@@ -218,6 +221,28 @@ namespace DAL
                 howManyPage = 0;
                 return new List<TuyenDi>();
             }
+        }
+
+        //Update trang thai ve
+        public static bool UpdatePrint(string id, bool status)
+        {
+            try
+            {
+                int result = DataProvider.Instance.ExecuteNonQuery("TuyenDi_UpdatePrint", Convert.ToInt32(id), status);
+                return result > 0;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        //Count BenDiBenDen
+
+        public static int VeXe_CountBenDiBenDen(string bendibenden,string gioxuatben,string kieuxe)
+        {
+            object result = DataProvider.Instance.ExecuteScalar("TuyenDi_CountBenDiBenDen", bendibenden, gioxuatben, kieuxe);
+            return Convert.ToInt32(result);
         }
     }
 }
