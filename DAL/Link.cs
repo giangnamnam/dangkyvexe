@@ -98,23 +98,41 @@ namespace DAL
         }
 
         //Tim kiem vexe
-        public static string SearchVeXe(string page, string diachi, DateTime ngayxuatben, string gioxuatben, string bendibenden)
+        public static string SearchVeXe(string page, string diachi, string ngayxuatben, string gioxuatben,string loaixe, string bendibenden)
         {
             if (page == "1")
             {
-                return BuildAbsolute(String.Format("Admin/Tuyendi.aspx?Diachi={0}&Ngayxuatben={1}&Gioxuatben={2}&Bendibenden={3}",diachi,ngayxuatben,gioxuatben, bendibenden));
+                return BuildAbsolute(String.Format("Admin/VeXe.aspx?Diachi={0}&Ngayxuatben={1}&Gioxuatben={2}&Loaixe={3}&Bendibenden={4}", diachi, ngayxuatben, gioxuatben, loaixe, bendibenden));
             }
             else
             {
-                return BuildAbsolute(String.Format("Admin/Tuyendi.aspx?Page={0}&Diachi={1}&Ngayxuatben={2}&Gioxuatben={3}&Bendibenden={4}",page,diachi, ngayxuatben, gioxuatben, bendibenden));
+                return BuildAbsolute(String.Format("Admin/VeXe.aspx?Page={0}&Diachi={1}&Ngayxuatben={2}&Gioxuatben={3}&Loaixe={4}Bendibenden={5}", page, diachi, ngayxuatben, gioxuatben, loaixe, bendibenden));
             }
 
         }
         public static string SearchVeXe()
         {
-            return SearchVeXe("1","",DateTime.Parse(""),"","");
+            return SearchVeXe("1","","","","","");
         }
 
+
+        //TimKiemLienHe
+        public static string SearchLienHe(string page,string hoten,string diachi,string email,string sodt)
+        {
+            if (page == "1")
+            {
+                return BuildAbsolute(String.Format("Admin/Lienhe.aspx?Hoten={0}&Diachi={1}&Email={2}&Sodt={3}", hoten, diachi, email, sodt));
+            }
+            else
+            {
+                return BuildAbsolute(String.Format("Admin/Lienhe.aspx?Page={0}&Hoten={1}&Diachi={2}&Email={3}&Sodt={4}", page, hoten, diachi, email, sodt));
+            }
+
+        }
+        public static string SearchLienHe()
+        {
+            return SearchLienHe("1", "", "", "", "");
+        }
 
 
 
