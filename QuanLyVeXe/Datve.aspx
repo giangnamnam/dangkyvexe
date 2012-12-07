@@ -15,6 +15,24 @@
             font-weight: bold;
             color: #999;
         }
+        .oh
+        {
+             border-bottom:1px solid #CCC; 
+             border-top:1px solid #CCC;
+             border-left:1px solid #CCC;
+             border-right: 1px solid #CCC;
+        }
+        .baterror
+        {
+            color:Red;
+        }
+        .labelTonTai
+        {
+            text-align:center;
+            color:Red;
+            font-weight:lighter;
+            font-size: 15px;
+        }
     </style>
     <link href="css/clander/jquery-ui.css" rel="stylesheet" type="text/css" />
     <script src="js/jsclander/jquery-1.8.0.js" type="text/javascript"></script>
@@ -38,6 +56,12 @@
                                     <br />
                                 <p><asp:Label ID="lbThongBaoStatus1" runat="server" Text="" Font-Bold="True" Font-Size="Large" ForeColor="#FF3300"></asp:Label></p>
                                 <br />
+
+                               <br />
+
+
+                              
+
                                 <p>
                                     <asp:HyperLink ID="HyperLinkDangNhap" runat="server" NavigateUrl="~/Dangnhap.aspx">Đăng nhập</asp:HyperLink>
                                     <asp:Label ID="Label10" runat="server" Text="|"></asp:Label>
@@ -195,7 +219,65 @@
                               
                                
                                <img src="imageqc/Linetitle1.jpg" width="600px"/>
+                               <br />
+                               <br />
+                               <asp:Panel ID="PanelThongTinVe" runat="server" Visible="false">
+                              
+                           
+                                <table style="text-align:center" cellpadding="10" cellspacing="0" border="0" width="100%">
+                                    <tr>
+                                        <td class="oh" style="font-weight:bold; background-color: #CCC;">
+                                            Bến đi <=> Bến đến
+                                        </td>
+                                        <td class="oh" style="font-weight:bold; background-color: #CCC;">
+                                            Ngày xuất bên
+                                        </td>
+                                        <td class="oh" style="font-weight:bold; background-color: #CCC;">
+                                            Thời gian
+                                        </td>
+                                        <td class="oh" style="font-weight:bold; background-color: #CCC;">
+                                            Loại xe
+                                        </td>
+                                        <td class="oh" style="font-weight:bold; background-color: #CCC;">
+                                            Chỗ trống
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="oh">  
+                                            <asp:Label ID="lbBenDiBenDen" runat="server" Text="" ></asp:Label>
+                                        </td>
+                                        
+                                        <td class="oh">
+                                        
+                                            <asp:Label ID="lbNgayXuatBen" runat="server" Text=""></asp:Label>
+                                        </td>
+
+                                        <td class="oh">
+                                            <asp:Label ID="lbThoiGian" runat="server" Text=""></asp:Label>
+                                        </td>
+                                        
+                                        <td class="oh">
+                                            <asp:Label ID="lbLoaiXe" runat="server" Text=""></asp:Label>
+                                        </td>
+
+                                        <td class="oh">   
+                                            <asp:Label ID="lbSoLuongVeWhere" runat="server" Text="" Visible="false">1</asp:Label>
+                                        </td>
+                                        
+                                    </tr>
                                 
+                                </table>
+                              
+                                 <br />
+                         
+                                <img src="imageqc/Linetitle1.jpg" width="600px"/>
+                                </asp:Panel>
+
+                                <asp:Label ID="lbTuyenDiTonTai" runat="server" Text="" CssClass="labelTonTai"></asp:Label>
+
+                                 <asp:HyperLink ID="HyperLinkBangGiaVe" runat="server" NavigateUrl="~/Banggiave.aspx" Target="_blank" Font-Overline="False" Font-Underline="True" ForeColor="#FF3300" Font-Bold="True"></asp:HyperLink>
+
+
                                 <br />
                                 <br /> 
                                 <table border="0" width="100%">

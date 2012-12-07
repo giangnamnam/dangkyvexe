@@ -128,6 +128,10 @@ public partial class Datve : System.Web.UI.Page
     }
     protected void btDangKy_Click(object sender, EventArgs e)
     {
+        string bendibenden = DropDownListTuyenDiTuyenDen.SelectedItem.Text;
+        string thoigian = DropDownListThoiGian.SelectedValue;
+        string maxe = DropDownListLoaiXe.SelectedValue;
+
         CaptchaControlDatVe.ValidateCaptcha(txtCapchaDangky.Text.Trim().ToLower());
         if (CaptchaControlDatVe.UserValidated)
         {
@@ -137,20 +141,61 @@ public partial class Datve : System.Web.UI.Page
                 VeXe data = GetData();
                 if (data.MaVe > 0)
                 {
-                    result = VeXe.Update(data);
-                    if (result)
+                    if (TuyenDi.TuyenDi_SelectWhereSoKhop(bendibenden, thoigian, maxe) != 0)
                     {
-                        Response.Redirect("~/Listvexe.aspx");
+                        result = VeXe.Update(data);
+                        if (result)
+                        {
+                            //Response.Redirect("~/Listvexe.aspx");
+                            PanelThongTinVe.Visible = true;
+                            lbSoLuongVeWhere.Visible = true;
+                            int resultCount = VeXe.VeXe_CountWhere(txtNgayThangXuatBen.Text, DropDownListThoiGian.SelectedValue.ToString(), DropDownListTuyenDiTuyenDen.SelectedValue.ToString(), DropDownListLoaiXe.SelectedValue.ToString());
+                            // lbSoLuongVeWhere.Text = "<script>alert(" + resultCount+")</script>";
+                            lbBenDiBenDen.Text = DropDownListTuyenDiTuyenDen.SelectedItem.Text;
+                            lbNgayXuatBen.Text = data.NgayXuatBen.ToShortDateString().ToString();
+                            lbThoiGian.Text = DropDownListThoiGian.SelectedItem.Text; ;
+                            lbLoaiXe.Text = DropDownListLoaiXe.SelectedItem.Text;
+                            lbSoLuongVeWhere.Text = "" + resultCount;
+                            ResetForm();
+                            lbTuyenDiTonTai.Text = "";
+                            HyperLinkBangGiaVe.Text = "";
+                        }
+                    }
+                    else
+                    {
+                        lbTuyenDiTonTai.Text = "Tuyến đi không tồn tại. Xin qúy khách vui lòng xem lại ";
+                        HyperLinkBangGiaVe.Text = "bảng giá vé";
                     }
                 }
                 else
                 {
-                    result = VeXe.Add(data);
-                    if (result)
+                    if (TuyenDi.TuyenDi_SelectWhereSoKhop(bendibenden, thoigian, maxe) != 0)
                     {
-                        Response.Redirect("~/Listvexe.aspx");
+                        result = VeXe.Add(data);
+                        if (result)
+                        {
+                            //Response.Redirect("~/Listvexe.aspx");
+                            PanelThongTinVe.Visible = true;
+                            lbSoLuongVeWhere.Visible = true;
+                            int resultCount = VeXe.VeXe_CountWhere(txtNgayThangXuatBen.Text, DropDownListThoiGian.SelectedValue.ToString(), DropDownListTuyenDiTuyenDen.SelectedValue.ToString(), DropDownListLoaiXe.SelectedValue.ToString());
+                            // lbSoLuongVeWhere.Text = "<script>alert(" + resultCount+")</script>";
+                            lbBenDiBenDen.Text = DropDownListTuyenDiTuyenDen.SelectedItem.Text;
+                            lbNgayXuatBen.Text = data.NgayXuatBen.ToShortDateString().ToString();
+                            lbThoiGian.Text = DropDownListThoiGian.SelectedItem.Text; ;
+                            lbLoaiXe.Text = DropDownListLoaiXe.SelectedItem.Text;
+                            lbSoLuongVeWhere.Text = "" + resultCount;
+                            ResetForm();
+                            lbTuyenDiTonTai.Text = "";
+                            HyperLinkBangGiaVe.Text = "";
+                        }
+                    }
+                    else
+                    {
+                        lbTuyenDiTonTai.Text = "Tuyến đi không tồn tại. Xin qúy khách vui lòng xem lại ";
+                        HyperLinkBangGiaVe.Text = "bảng giá vé";
                     }
                 }
+
             }
         }
         else
@@ -158,6 +203,9 @@ public partial class Datve : System.Web.UI.Page
             lbResult.Text = "Nhập sai mã bảo vệ";
         }
     }
+
+    //Thong ke ve co dieu kien
+
 
     //ResetForm
     private void ResetForm()
@@ -172,5 +220,7 @@ public partial class Datve : System.Web.UI.Page
         DropDownListThoiGian.SelectedValue = "0";
         DropDownListLoaiXe.SelectedValue = "0";
         DropDownListTuyenDiTuyenDen.SelectedValue = "0";
+        txtCapchaDangky.Text = "";
     }
+
 }
