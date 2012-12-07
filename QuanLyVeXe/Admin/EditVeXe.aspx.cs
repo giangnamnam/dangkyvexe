@@ -114,7 +114,7 @@ public partial class Admin_EditVeXe : System.Web.UI.Page
         string bendibenden = DropDownListTuyenDiTuyenDen.SelectedItem.Text;
         string thoigian = DropDownListThoiGian.SelectedValue;
         string maxe = DropDownListLoaiXe.SelectedValue;
-        int resultCount = 0;
+        int resultCount = VeXe.VeXe_CountWhere(txtNgayThangXuatBen.Text, DropDownListThoiGian.SelectedValue.ToString(), DropDownListTuyenDiTuyenDen.SelectedValue.ToString(), DropDownListLoaiXe.SelectedValue.ToString());
 
         CaptchaControlDatVeAdmin.ValidateCaptcha(txtCapchaDangky.Text.Trim().ToLower());
         if (CaptchaControlDatVeAdmin.UserValidated)
@@ -128,27 +128,28 @@ public partial class Admin_EditVeXe : System.Web.UI.Page
                     if (TuyenDi.TuyenDi_SelectWhereSoKhop(bendibenden, thoigian, maxe) != 0)
                     {
                         result = VeXe.Update(data);
-                        if (result && resultCount > 0)
+                        if (resultCount > 0)
                         {
-                            //Response.Redirect("~/Listvexe.aspx");
-                            PanelThongTinVe.Visible = true;
-                            lbSoLuongVeWhere.Visible = true;
-                            resultCount = VeXe.VeXe_CountWhere(txtNgayThangXuatBen.Text, DropDownListThoiGian.SelectedValue.ToString(), DropDownListTuyenDiTuyenDen.SelectedValue.ToString(), DropDownListLoaiXe.SelectedValue.ToString());
-                            // lbSoLuongVeWhere.Text = "<script>alert(" + resultCount+")</script>";
-                            lbBenDiBenDen.Text = DropDownListTuyenDiTuyenDen.SelectedItem.Text;
-                            lbNgayXuatBen.Text = data.NgayXuatBen.ToShortDateString().ToString();
-                            lbThoiGian.Text = DropDownListThoiGian.SelectedItem.Text; ;
-                            lbLoaiXe.Text = DropDownListLoaiXe.SelectedItem.Text;
-                            lbSoLuongVeWhere.Text = "" + resultCount;
-                            ResetForm();
-                            lbTuyenDiTonTai.Text = "";
-                            HyperLinkBangGiaVe.Text = "";
-                            lbHetVe.Text = "";
+                            if (result)
+                            {
+                                //Response.Redirect("~/Listvexe.aspx");
+                                PanelThongTinVe.Visible = true;
+                                lbSoLuongVeWhere.Visible = true;
+                                //resultCount = VeXe.VeXe_CountWhere(txtNgayThangXuatBen.Text, DropDownListThoiGian.SelectedValue.ToString(), DropDownListTuyenDiTuyenDen.SelectedValue.ToString(), DropDownListLoaiXe.SelectedValue.ToString());
+                                // lbSoLuongVeWhere.Text = "<script>alert(" + resultCount+")</script>";
+                                lbBenDiBenDen.Text = DropDownListTuyenDiTuyenDen.SelectedItem.Text;
+                                lbNgayXuatBen.Text = data.NgayXuatBen.ToShortDateString().ToString();
+                                lbThoiGian.Text = DropDownListThoiGian.SelectedItem.Text; ;
+                                lbLoaiXe.Text = DropDownListLoaiXe.SelectedItem.Text;
+                                lbSoLuongVeWhere.Text = "" + resultCount;
+                                ResetForm();
+                                lbTuyenDiTonTai.Text = "";
+                                HyperLinkBangGiaVe.Text = "";
+                                lbHetVe.Text = "";
+                            }
                         }
                         else
-                        {
                             lbHetVe.Text = "Chuyến đi quý khách vừa chọn đã hết vé.";
-                        }
                     }
                     else
                     {
@@ -162,27 +163,28 @@ public partial class Admin_EditVeXe : System.Web.UI.Page
                     if (TuyenDi.TuyenDi_SelectWhereSoKhop(bendibenden, thoigian, maxe) != 0)
                     {
                         result = VeXe.Add(data);
-                        if (result && resultCount > 0)
+                        if (resultCount > 0)
                         {
-                            //Response.Redirect("~/Listvexe.aspx");
-                            PanelThongTinVe.Visible = true;
-                            lbSoLuongVeWhere.Visible = true;
-                            resultCount = VeXe.VeXe_CountWhere(txtNgayThangXuatBen.Text, DropDownListThoiGian.SelectedValue.ToString(), DropDownListTuyenDiTuyenDen.SelectedValue.ToString(), DropDownListLoaiXe.SelectedValue.ToString());
-                            // lbSoLuongVeWhere.Text = "<script>alert(" + resultCount+")</script>";
-                            lbBenDiBenDen.Text = DropDownListTuyenDiTuyenDen.SelectedItem.Text;
-                            lbNgayXuatBen.Text = data.NgayXuatBen.ToShortDateString().ToString();
-                            lbThoiGian.Text = DropDownListThoiGian.SelectedItem.Text; ;
-                            lbLoaiXe.Text = DropDownListLoaiXe.SelectedItem.Text;
-                            lbSoLuongVeWhere.Text = "" + resultCount;
-                            ResetForm();
-                            lbTuyenDiTonTai.Text = "";
-                            HyperLinkBangGiaVe.Text = "";
-                            lbHetVe.Text = "";
+                            if (result)
+                            {
+                                //Response.Redirect("~/Listvexe.aspx");
+                                PanelThongTinVe.Visible = true;
+                                lbSoLuongVeWhere.Visible = true;
+                                //resultCount = VeXe.VeXe_CountWhere(txtNgayThangXuatBen.Text, DropDownListThoiGian.SelectedValue.ToString(), DropDownListTuyenDiTuyenDen.SelectedValue.ToString(), DropDownListLoaiXe.SelectedValue.ToString());
+                                // lbSoLuongVeWhere.Text = "<script>alert(" + resultCount+")</script>";
+                                lbBenDiBenDen.Text = DropDownListTuyenDiTuyenDen.SelectedItem.Text;
+                                lbNgayXuatBen.Text = data.NgayXuatBen.ToShortDateString().ToString();
+                                lbThoiGian.Text = DropDownListThoiGian.SelectedItem.Text; ;
+                                lbLoaiXe.Text = DropDownListLoaiXe.SelectedItem.Text;
+                                lbSoLuongVeWhere.Text = "" + resultCount;
+                                ResetForm();
+                                lbTuyenDiTonTai.Text = "";
+                                HyperLinkBangGiaVe.Text = "";
+                                lbHetVe.Text = "";
+                            }
                         }
                         else
-                        {
                             lbHetVe.Text = "Chuyến đi quý khách vừa chọn đã hết vé.";
-                        }
                     }
                     else
                     {
